@@ -1,0 +1,35 @@
+   <div class="block">
+     <h2>Workspaces for Existing Repositories</h2>
+   </div>
+
+   <div class="row">
+     <div class="col-md-4 col-sm-6">
+       <div class="border media">
+         <div class="media-left">
+           <img src="../images/getting-started/codenvy.png" alt="Codenvy">
+         </div>
+
+         <div class="media-body">
+           <h4>Custom</h4>
+           <p class="small">Create workspaces for any language/framework.</p>
+         </div>
+         <a href="http://beta.codenvy.com/site/login" class="btn-green">Create a free account</a>
+       </div>
+     </div> <!-- /.col -->
+
+     {{#items}}
+     <div class="col-md-4 col-sm-6">
+       <div class="border media">
+         <div class="media-left">
+           <img src="{{renderingLogo}}" alt="Logo for {{name}}">
+         </div>
+         <div class="media-body">
+           <h4>{{name}}</h4>
+           <p class="small" style="height: 50px;">{{desc}}</p>
+         </div>
+         <a href="{{factory}}" class="btn-gray80">Launch Workspace</a>
+       </div>
+     </div> <!-- /.col -->
+     {{/items}}
+
+   </div><!-- /.row -->
