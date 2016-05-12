@@ -77,48 +77,15 @@ public class Generator {
         // create folder
         Files.createDirectory(imagesGettingStartedPath);
 
-        String htmlRepositories = generateHtml(sourcePath.resolve("repositories"), "repositories.mustache", imagesGettingStartedPath);
-        String htmlSamples = generateHtml(sourcePath.resolve("che-samples"), "che-samples.mustache", imagesGettingStartedPath);
-
-        insertHtml(gettingStartedHtmlPath, htmlRepositories, "EXISTING_REPOSITORIES");
-        insertHtml(gettingStartedHtmlPath, htmlSamples, "CODENVY_SAMPLES");
+        generateJson(sourcePath, "factories-json.mustache", gettingStartedHtmlPath.getParent().resolve("scripts/factories.json"), imagesGettingStartedPath);
 
         System.out.println("Successfully generated.");
+
     }
 
-        void insertHtml(Path gettingStartedHtmlPath, String content, String marker) throws IOException {
-
-            // load content of the file
-            String htmlContent = new String(Files.readAllBytes(gettingStartedHtmlPath));
-
-            // now search position
-            String startMarker = "<!-- START_" + marker + " -->";
-            String endMarker = "<!-- END_" + marker + " -->";
-
-            int indexStart = htmlContent.indexOf(startMarker);
-            int indexEnd = htmlContent.indexOf(endMarker);
-
-            if (indexStart == -1) {
-                throw new IllegalStateException(String.format("Unable to find marker %s in file %s", startMarker, gettingStartedHtmlPath.getFileName().toString()));
-            }
-
-            if (indexEnd == -1) {
-                throw new IllegalStateException(String.format("Unable to find marker %s in file %s", startMarker, gettingStartedHtmlPath.getFileName().toString()));
-            }
-
-            // add marker length for the start
-            indexStart = indexStart + startMarker.length();
-
-            // now replace content between the two markers
-
-            String value = htmlContent.substring(0, indexStart).concat("\n").concat(content).concat(htmlContent.substring(indexEnd));
-
-            Files.write(gettingStartedHtmlPath, value.getBytes());
-
-        }
 
 
-    String generateHtml(Path initFolder, String templateName, Path imagesOutputfolder) throws IOException, NoSuchAlgorithmException {
+    void generateJson(Path initFolder, String templateName, Path jsonOutput, Path imagesOutputfolder) throws IOException, NoSuchAlgorithmException {
 
         // search codenvy yaml files
         CodenvyYamlVisitor visitor = new CodenvyYamlVisitor();
@@ -128,7 +95,7 @@ public class Generator {
         List<Path> collectedFiles = visitor.getCodenvyYamlFiles();
 
         // List of descriptions of factories
-        List<CodenvyYamlDesc> codenvyDescs = new ArrayList<>();
+        List<CodenvyDesc> codenvyDescs = new ArrayList<>();
 
         // parse yaml files are read the descriptions
         for (Path codenvyYamlFile: collectedFiles) {
@@ -166,6 +133,10 @@ public class Generator {
 
         // sort by name
         Collections.sort(codenvyDescs);
+        for (int i=0; i < codenvyDescs.size() -1; i++) {
+            CodenvyDesc codenvyDesc = codenvyDescs.get(i);
+            codenvyDesc.setHasMoreElements(true);
+        }
 
         // init mustache by loading correct template
         MustacheFactory mf = new DefaultMustacheFactory();
@@ -177,7 +148,10 @@ public class Generator {
         // Return rendering of template
         StringWriter writer = new StringWriter();
         mustache.execute(writer, context).flush();
-        return writer.toString();
+        String content = writer.toString();
+
+        Files.write(jsonOutput, content.getBytes());
+
     }
 
 

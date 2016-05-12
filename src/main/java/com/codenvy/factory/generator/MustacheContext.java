@@ -8,13 +8,13 @@ import java.util.List;
  */
 public class MustacheContext {
 
-    private final List<CodenvyYamlDesc> codenvyDescs;
+    private final List<CodenvyDesc> codenvyDescs;
 
-    public MustacheContext(List<CodenvyYamlDesc> codenvyDescs){
+    public MustacheContext(List<CodenvyDesc> codenvyDescs){
         this.codenvyDescs = codenvyDescs;
     }
 
-    List<CodenvyYamlDesc> items() {
+    List<CodenvyDesc> items() {
         return this.codenvyDescs;
     }
 

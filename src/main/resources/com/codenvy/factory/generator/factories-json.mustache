@@ -1,0 +1,25 @@
+{
+  "disclaimer":"DO NOT CHANGE ANYTHING IN THIS FILE, IT IS AUTOMATICALLY GENERATED",
+  "factories":
+  [
+     {{#items}}
+     {
+       "name": "{{name}}",
+       "desc": "{{desc}}",
+       "logo": "{{renderingLogo}}",
+       "project": "{{project}}",
+       "website": "{{website}}",
+       "category": "{{category}}",
+       "badgedRepository": {{badgedRepository}},
+       "badgeLink": "{{badgeLink}}",
+       "factory": "{{factory}}",
+       "languages": [
+          {{#languagesFormat}}
+            "{{name}}"{{#hasMoreElements}},{{/hasMoreElements}}
+          {{/languagesFormat}}
+
+        ]
+     }{{#hasMoreElements}},{{/hasMoreElements}}
+     {{/items}}
+  ]
+}

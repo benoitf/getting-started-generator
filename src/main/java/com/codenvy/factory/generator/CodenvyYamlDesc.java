@@ -1,18 +1,21 @@
 package com.codenvy.factory.generator;
 
+import java.util.List;
+
 /**
  * Describe metadata on factories
  * @author Florent Benoit
  */
 public class CodenvyYamlDesc implements Comparable<CodenvyYamlDesc> {
 
-    private String name;
-    private String desc;
-    private String project;
-    private String website;
-    private String factory;
-
-
+    private String       name;
+    private String       desc;
+    private String       project;
+    private String       website;
+    private String       factory;
+    private String       badgeLink;
+    private String       category;
+    private List<String> languages;
 
     public String getName() {
         return name;
@@ -66,5 +69,29 @@ public class CodenvyYamlDesc implements Comparable<CodenvyYamlDesc> {
 
     public String toString() {
         return "CodenvyDesc[" + this.name + "]";
+    }
+
+    public String getBadgeLink() {
+        return badgeLink;
+    }
+
+    public void setBadgeLink(String badgeLink) {
+        this.badgeLink = badgeLink;
+    }
+
+    public void setLanguages(List<String> languages) {
+        this.languages = languages;
+    }
+
+    public List<String> getLanguages() {
+        return languages;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
