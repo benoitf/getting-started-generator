@@ -54,7 +54,7 @@ public class Generator {
         }
 
         if (!"index.html".equals(gettingStartedFile.getName())) {
-            throw new IllegalStateException("the source folder should be referencing che-website");
+            throw new IllegalStateException("the getting started path should be referencing index.html of getting started");
         }
 
         // root path
